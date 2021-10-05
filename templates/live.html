@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+    <a class="btn btn-warning home" href="{{ url_for('index') }}">Домой</a>
+    <a class="btn btn-info refresh" href="{{ url_for('live') }}">Прожить поколение</a>
+    <br>
+    <div class="counter">{{ universe.life_counter }}</div>
+    <table class="world">
+        {% for row in universe.world %}
+            {% set i = loop.index0 %}
+            <tr>
+                {% for item in row %}
+                    {% set j = loop.index0 %}
+                    {% if item %}
+                        <td class="cell living-cell"></td>
+                    {% elif universe.old_world[i][j] %}
+                        <td class="cell dead-cell">
+                    {% else %}
+                        <td class="cell"></td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript">setInterval(() => window.location.reload(), 2000);</script>
+{% endblock %}
